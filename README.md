@@ -1,3 +1,12 @@
+# VSLike Game
+
+This is a repository with a implementation of a game like vampire surviros.
+
+Follow the next steps for configure and download it. 
+
+Thanks
+
+
 # CMake SFML Project Template
 
 This repository template should allow for a fast and hassle-free kick start of your next SFML project using CMake.
