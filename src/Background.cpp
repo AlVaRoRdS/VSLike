@@ -5,6 +5,7 @@
 
 Background::Background()
 {
+	// Sets the initial biomes coords for Voronoi's algorithm
 	bgBiome[0].type = 0;
 	bgBiome[0].x = 10;
 	bgBiome[0].y = 10;
@@ -45,16 +46,19 @@ void Background::createBackground()
 	{
 		for (int j = 0; j < columns; j++)
 		{
+			// Voronoi's algorith implementation
 			int nearest = 0;
             int dist = 10000;
 
             for (int z = 0; z < 5; z++) 
 			{
+				// Checks distances
                 int xdiff = bgBiome[z].x - i;
                 int ydiff = bgBiome[z].y - j;
 
                 int cdist = xdiff*xdiff + ydiff*ydiff;
 
+				// Gets nearest biome
                 if (cdist < dist)
 				{
                     nearest = bgBiome[z].type;
@@ -63,6 +67,7 @@ void Background::createBackground()
             }
             m_biome = nearest;
 
+			// Switch biome for set the texture assigned to that biome
 			switch(m_biome)
 			{
 				case 0:
@@ -89,6 +94,7 @@ void Background::createBackground()
 
 void Background::drawBackground(sf::RenderWindow& gameWindow, sf::FloatRect& currentViewRect)
 {
+	// Checks if the background tiles are in the camera rect view
 	for (int i = 0; i < rows; i++)
 	{
 		for (int j = 0; j < columns; j++)
@@ -102,16 +108,19 @@ void Background::drawBackground(sf::RenderWindow& gameWindow, sf::FloatRect& cur
 			}
 		}
 	}
+	// Debug for Tile Drew
 	//std::cout << std::endl;
 }
 
 bool Background::isInView(sf::Sprite& sprite, sf::RenderWindow& gameWindow, sf::FloatRect& currentViewRect) const 
 {
+	// Gets sprite rect
 	sf::FloatRect rect;
 	rect.left = sprite.getPosition().x;
 	rect.top = sprite.getPosition().y;
 	rect.width = m_tileSize * m_tileScale;
 	rect.height = m_tileSize * m_tileScale;
 
+	// Checks if intersects with the current view
 	return rect.intersects(currentViewRect);
 }

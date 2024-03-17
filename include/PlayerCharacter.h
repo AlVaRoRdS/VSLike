@@ -29,8 +29,7 @@ class PlayerCharacter
 				m_playerHealth = 0;
 				return 0;
 			}
-			else 
-				return m_playerHealth = newHealth;
+			return m_playerHealth = newHealth;
 		}
 
 		float getPlayerExp() const { return m_playerExp; }

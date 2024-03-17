@@ -26,7 +26,7 @@ void BaseAttack::initTexture(sf::Texture& loadedTexture)
 void BaseAttack::createSprite(const float& xPos, const float& yPos)
 {
 	baSprite.setPosition(xPos, yPos);
-	baSprite.setScale(1.f, 0.5f);
+	baSprite.setScale(m_baseAttackScale.x, m_baseAttackScale.y);
 }
 
 void BaseAttack::update(sf::Int32& deltaTimeMs, PlayerCharacter* playerCharacter)

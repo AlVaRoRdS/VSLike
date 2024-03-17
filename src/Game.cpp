@@ -42,13 +42,14 @@ void Game::updateGame(sf::Int32 deltaTimeMs)
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) || sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 		m_playerCharacter->pcSprite.move(0.f, m_playerCharacter->getPlayerSpeed() * deltaTimeMs);
 	
-	// UpdateUI
+	// Updates UI
 	m_gameUI->updateGameUI(m_playerCharacter);
 
 	// Base Attack Spawner
 	if(m_baseAttackCooldown >= 200.f)
 	{
 		m_baseAttackCooldown = 0.f;
+		// Spawns Base Attack 
 		BaseAttack* baPooledObject = baseAttackPool.get();
 		baPooledObject->initBaseAttack();
 		baPooledObject->initTexture(m_textureLoader->tlTexture[1]);
@@ -96,7 +97,7 @@ void Game::updateGame(sf::Int32 deltaTimeMs)
 				randomY = m_currentViewRect.top + randomWidth;
 				break;
 		}
-
+		// Spawns Enemy Character
 		EnemyCharacter* enemyRand = enemyCharacterPool.get();
 		enemyRand->initEnemyCharacter();
 		enemyRand->initTexture(m_textureLoader->tlTexture[2]);
@@ -116,7 +117,8 @@ void Game::updateGame(sf::Int32 deltaTimeMs)
 			if(obj->getEnemyHealth() <= 0.f)
 			{
 				obj->isActive = false;
-				// Spawns DropXp at location
+
+				// Spawns Experience at Enemy Dead location
 				DropExp* drop = dropXpPool.get();
 				drop->initDropExp();
 				drop->initTexture(m_textureLoader->tlTexture[3]);
@@ -168,6 +170,15 @@ void Game::renderGame(sf::RenderWindow& gameWindow)
 			dropXpPool.put(obj);
 	}
 
+	// Renders BaseAttack Position
+	for (auto obj : baseAttackPool.getPooledObjects())
+	{
+		if (obj->isActive)
+			gameWindow.draw(obj->baSprite);
+		else // If is not active anymore, return it to the pool
+			baseAttackPool.put(obj);
+	}
+
 	// Renders PlayerCharacter
 	gameWindow.draw(m_playerCharacter->pcSprite);
 
@@ -182,15 +193,6 @@ void Game::renderGame(sf::RenderWindow& gameWindow)
 		}
 		else
 			enemyCharacterPool.put(obj);
-	}
-
-	// Renders BaseAttack Position
-	for (auto obj : baseAttackPool.getPooledObjects())
-	{
-		if (obj->isActive)
-			gameWindow.draw(obj->baSprite);
-		else // If is not active anymore, return it to the pool
-			baseAttackPool.put(obj);
 	}
 
 	// Draw UI

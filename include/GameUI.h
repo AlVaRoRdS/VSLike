@@ -19,6 +19,4 @@ class GameUI
 
 		void updateGameUI(PlayerCharacter* playerCharacter);
 		void renderGameUI(sf::RenderWindow& gameWindow);
-	private:
-
 };

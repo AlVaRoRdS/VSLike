@@ -32,6 +32,7 @@ void DropExp::update(sf::Int32& deltaTimeMs, PlayerCharacter* playerCharacter)
 {
 	if(isActive)
 	{
+		// Gets Player Position for determine direction
 		sf::Vector2f vectorDirection {playerCharacter->pcSprite.getPosition().x - (deSprite.getPosition().x + m_deOffset.x),
 										playerCharacter->pcSprite.getPosition().y - (deSprite.getPosition().y + m_deOffset.y)};
 
@@ -40,7 +41,7 @@ void DropExp::update(sf::Int32& deltaTimeMs, PlayerCharacter* playerCharacter)
 		if(distance != 0)
 			vectorDirection /= distance;
 
-		// Chase the player
+		// Chases the player
 		if(distance <= m_dropExpRange || m_chase)
 		{
 			m_chase = true;
@@ -51,7 +52,7 @@ void DropExp::update(sf::Int32& deltaTimeMs, PlayerCharacter* playerCharacter)
 		// Checks if interescts
 		if(deSprite.getGlobalBounds().intersects(playerCharacter->pcSprite.getGlobalBounds()))
 		{
-			// Adds Experience to the player
+			// Adds Experience to the Player Character
 			playerCharacter->addPlayerExp(m_dropExpValue);
 			// Sets innactive for get pooled back to the pool
 			isActive = false;
@@ -61,11 +62,13 @@ void DropExp::update(sf::Int32& deltaTimeMs, PlayerCharacter* playerCharacter)
 
 bool DropExp::isInView(sf::FloatRect& currentViewRect) const 
 {
+	// Gets sprite rect
 	sf::FloatRect rect;
 	rect.left = deSprite.getPosition().x;
 	rect.top = deSprite.getPosition().y;
 	rect.width = m_deSize * m_deScale;
 	rect.height = m_deSize * m_deScale;
 
+	// Checks if intersects with the current view
 	return rect.intersects(currentViewRect);
 }

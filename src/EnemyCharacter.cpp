@@ -30,6 +30,7 @@ void EnemyCharacter::update(sf::Int32& deltaTimeMs, PlayerCharacter* playerChara
 {
 	if(isActive)
 	{
+		// Gets Player Position for determine direction
 		sf::Vector2f vectorDirection {playerCharacter->pcSprite.getPosition().x - ecSprite.getPosition().x, playerCharacter->pcSprite.getPosition().y - ecSprite.getPosition().y};
 
 		float distance = std::sqrt(vectorDirection.x * vectorDirection.x + vectorDirection.y * vectorDirection.y);
@@ -37,6 +38,7 @@ void EnemyCharacter::update(sf::Int32& deltaTimeMs, PlayerCharacter* playerChara
 		if(distance != 0)
 			vectorDirection /= distance;
 
+		// Chases the player
 		ecSprite.setPosition(ecSprite.getPosition().x + (vectorDirection.x * deltaTimeMs * m_enemySpeed),
 								ecSprite.getPosition().y + (vectorDirection.y * deltaTimeMs * m_enemySpeed));
 
@@ -75,11 +77,13 @@ void EnemyCharacter::update(sf::Int32& deltaTimeMs, PlayerCharacter* playerChara
 
 bool EnemyCharacter::isInView(sf::FloatRect& currentViewRect) const 
 {
+	// Gets sprite rect
 	sf::FloatRect rect;
 	rect.left = ecSprite.getPosition().x;
 	rect.top = ecSprite.getPosition().y;
 	rect.width = m_enemySize * m_enemyScale;
 	rect.height = m_enemySize * m_enemyScale;
 
+	// Checks if intersects with the current view
 	return rect.intersects(currentViewRect);
 }

@@ -30,6 +30,7 @@ class BaseAttack
 
 	private:
 
+		sf::Vector2f m_baseAttackScale{ 1.f, 0.3f};
 		float m_baseAttackSpeed { 0.2f };
 		float m_baseAttackDamage { 10.f };
 		float m_cooldownRatio { 1.f };
