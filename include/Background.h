@@ -2,6 +2,8 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "TextureLoader.h"
+
 class BiomeInfo
 {
 public:
@@ -16,8 +18,8 @@ class Background
 
 	    Background();
 
-		void InitTexture();
-		void CreateSprite();
+		void initTexture(TextureLoader* textureLoader);
+		void createSprite();
 
 		sf::Texture bTexture0;
 		sf::Texture bTexture1;
@@ -26,9 +28,9 @@ class Background
 		sf::Texture bTexture4;
 		sf::Sprite bSprite;
 
-		void CreateBackground();
-		void DrawBackground(sf::RenderWindow& gameWindow, sf::FloatRect& currentViewRect);
-		bool IsInView(sf::Sprite& spriteAABB, sf::RenderWindow& gameWindow, sf::FloatRect& currentViewRect) const;
+		void createBackground();
+		void drawBackground(sf::RenderWindow& gameWindow, sf::FloatRect& currentViewRect);
+		bool isInView(sf::Sprite& spriteAABB, sf::RenderWindow& gameWindow, sf::FloatRect& currentViewRect) const;
 
 		const static int columns{ 100 };
 		const static int rows{ 100 };

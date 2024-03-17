@@ -10,7 +10,7 @@ class PlayerCharacter
 
 		PlayerCharacter();
 
-		void initTexture();
+		void initTexture(sf::Texture& loadedTexture);
 		void createSprite();
 
 		sf::Texture pcTexture;
@@ -24,22 +24,25 @@ class PlayerCharacter
 
 		float setPlayerHealth(float newHealth)
 		{
-			if(m_playerHealth == 0)
+			if(m_playerHealth <= 0)
+			{
+				m_playerHealth = 0;
 				return 0;
+			}
 			else 
 				return m_playerHealth = newHealth;
 		}
 
 		float getPlayerExp() const { return m_playerExp; }
 
-		float setPlayerExp(float newXp)
+		unsigned int addPlayerExp(unsigned int newXp)
 		{
-			return m_playerExp = newXp;
+			return m_playerExp += newXp;
 		}
 
 	private:
 
 		float m_playerSpeed { 0.5f };
 		float m_playerHealth { 100.f };
-		float m_playerExp { 0.f };
+		unsigned int m_playerExp { 0 };
 };

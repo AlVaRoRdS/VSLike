@@ -2,53 +2,49 @@
 
 #include <list>
 
-/// An object pool for arbitrary typed objects
 template<typename T>
 class ObjectPooler
 {
 	 private:
-	    /// the objects in the pool
+	    // All the Objects in the Pool
 	    std::list<T> objs;
-	    /// the free objects in the pool
+	    // Objects free for use
 	    std::list<T*> free;
-	    /// the used objects in the pool
+	    // Objects already in use
 	    std::list<T*> used;
 
-		size_t ObjectPoolSize = 0;
-
 	 public:
-	    /// initialize a new object pool.
+
 	    ObjectPooler() : free(), used() {}
 		
-	    /// Return an object from the pool.
+	    // Get and object from the pool
 	    T* get() 
 	    {
-	        if (free.empty()) // no objects are free
+	        if (free.empty())
 	        {  
-	            // create a new object in the list of objects
+	            // Create a new object if the list is empty
 	            objs.push_back(T());
-	            // push the objects pointer onto the list of used objects
 	            used.push_back(&objs.back());
 	        } 
-	        else // at least one object is free
+	        else
 	        {  
-	            // push the last free object pointer onto the list of used objects
+	            // Gets the last free object into the used list
 	            used.push_back(free.back());
-	            // remove the last free object from the free list
 	            free.pop_back();
 	        }
-	        // return the pointer to the object to use
+			// returns the last object in the used list
 	        return used.back();
 	    }
 
-	    /// Mark the given object for reuse in the future.
+	    // Saves the object back for reuse it again
 	    inline void put(T* obj) 
 	    {
-	        // add the item to the list of free items
+	        // Removes the object from the used list
 	        used.remove(obj);
-	        // remove the item from the list of used items
+	        // Sets the object free to use
 	        free.push_back(obj);
 	    }
 
-	    std::list<T*> getPooledObjects() { return used; }
+		// Get the used list where the Pooled Objects are
+	    std::list<T*> getPooledObjects() const { return used; }
 };

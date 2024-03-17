@@ -18,6 +18,8 @@ set(PROJECT_HEADERS
         include/EnemyCharacter.h
         include/Background.h
         include/DropExp.h
+        include/BaseAttack.h
+        include/TextureLoader.h
 )
 
 set(PROJECT_SOURCES
@@ -28,6 +30,8 @@ set(PROJECT_SOURCES
         src/EnemyCharacter.cpp
         src/Background.cpp
         src/DropExp.cpp
+        src/BaseAttack.cpp
+        src/TextureLoader.cpp
 )
 
 set(PROJECT_FILES 

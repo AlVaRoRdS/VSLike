@@ -2,7 +2,11 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "ObjectPooler.h"
+#include "BaseAttack.h"
+
 #include "PlayerCharacter.h"
+
 
 class EnemyCharacter
 {
@@ -12,8 +16,8 @@ class EnemyCharacter
 
 		void initEnemyCharacter();
 
-		void initTexture();
-		void createSprite();
+		void initTexture(sf::Texture& loadedTexture);
+		void createSprite(const float& xPos,const float& yPos);
 
 		sf::Texture ecTexture;
 		sf::Sprite ecSprite;
@@ -21,14 +25,23 @@ class EnemyCharacter
 		sf::Vector2f ecOffset{ -50.f, -50.f };
 
 		float getEnemySpeed() const { return m_enemySpeed; }
+		float getEnemyHealth() const { return m_enemyHealth; }
+		float setEnemyHealth(float newHealth)
+		{
+			m_enemyHealth = newHealth;
+			return m_enemyHealth;
+		}
 
-		void update(sf::Int32& deltaTimeMs, PlayerCharacter* playerCharacter);
+		void update(sf::Int32& deltaTimeMs, PlayerCharacter* playerCharacter, std::list<BaseAttack*> pooledBaseAttack);
+		bool isInView(sf::FloatRect& currentViewRect) const;
 
 		bool isActive { true };
 
 	private:
 
-		float enemyHealth { 10.f };
+		float m_enemySize { 100.f };
+		float m_enemyScale { 1.f };
+		float m_enemyHealth { 30.f };
 		float m_enemySpeed { 0.2f };
 		float m_enemyDamage { 1.f };
 		float m_damageRatio { 10.f };

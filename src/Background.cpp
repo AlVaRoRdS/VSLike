@@ -24,41 +24,18 @@ Background::Background()
 	bgBiome[4].type = 4;
 	bgBiome[4].x = 20;
 	bgBiome[4].y = 75;
-
-	InitTexture();
-	CreateBackground();
 }
 
-void Background::InitTexture()
+void Background::initTexture(TextureLoader* textureLoader)
 {
-	// TODO Change to a single texture and cut it in different variables
-	if (!bTexture0.loadFromFile("../assets/textures/backgroundTile0.png"))
-		std::cout << "Error loading Background Image 0" << std::endl;
-	else
-		std::cout << "Background Image 0 Loaded" << std::endl;
-
-	if (!bTexture1.loadFromFile("../assets/textures/backgroundTile1.png"))
-		std::cout << "Error loading Background Image 1" << std::endl;
-	else
-		std::cout << "Background Image 1 Loaded" << std::endl;
-
-	if (!bTexture2.loadFromFile("../assets/textures/backgroundTile2.png"))
-		std::cout << "Error loading Background Image 2" << std::endl;
-	else
-		std::cout << "Background Image 2 Loaded" << std::endl;
-
-	if (!bTexture3.loadFromFile("../assets/textures/backgroundTile3.png"))
-		std::cout << "Error loading Background Image 3" << std::endl;
-	else
-		std::cout << "Background Image 2 Loaded" << std::endl;
-
-	if (!bTexture4.loadFromFile("../assets/textures/backgroundTile4.png"))
-		std::cout << "Error loading Background Image 4" << std::endl;
-	else
-		std::cout << "Background Image 2 Loaded" << std::endl;
+	bTexture0 = textureLoader->tlTexture[4];
+	bTexture1 = textureLoader->tlTexture[5];
+	bTexture2 = textureLoader->tlTexture[6];
+	bTexture3 = textureLoader->tlTexture[7];
+	bTexture4 = textureLoader->tlTexture[8];
 }
 
-void Background::CreateBackground()
+void Background::createBackground()
 {
 	// Half of the size of the array so the center would be (0,0)
 	backgroundOffset = (columns * m_tileScale * m_tileSize) / -2;
@@ -110,14 +87,14 @@ void Background::CreateBackground()
 	}
 }
 
-void Background::DrawBackground(sf::RenderWindow& gameWindow, sf::FloatRect& currentViewRect)
+void Background::drawBackground(sf::RenderWindow& gameWindow, sf::FloatRect& currentViewRect)
 {
 	for (int i = 0; i < rows; i++)
 	{
 		for (int j = 0; j < columns; j++)
 		{
 			// Checks if the tiles is viewed in the view
-			if(IsInView(aSprites[i][j], gameWindow, currentViewRect))
+			if(isInView(aSprites[i][j], gameWindow, currentViewRect))
 			{
 				gameWindow.draw(aSprites[i][j]);
 				// Debug for Tile Drew
@@ -128,7 +105,7 @@ void Background::DrawBackground(sf::RenderWindow& gameWindow, sf::FloatRect& cur
 	//std::cout << std::endl;
 }
 
-bool Background::IsInView(sf::Sprite& sprite, sf::RenderWindow& gameWindow, sf::FloatRect& currentViewRect) const 
+bool Background::isInView(sf::Sprite& sprite, sf::RenderWindow& gameWindow, sf::FloatRect& currentViewRect) const 
 {
 	sf::FloatRect rect;
 	rect.left = sprite.getPosition().x;

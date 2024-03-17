@@ -11,28 +11,21 @@ DropExp::DropExp()
 
 void DropExp::initDropExp()
 {
-	initTexture();
-	createSprite();
+	isActive = true;
+	m_chase = false;
 }
 
-void DropExp::initTexture()
+void DropExp::initTexture(sf::Texture& loadedTexture)
 {
-	if (!deTexture.loadFromFile("../assets/textures/dropExp.png"))
-	{
-		std::cout << "Error loading DropExp Image" << std::endl;
-	}
-	else
-	{
-		std::cout << "DropExp Image Loaded" << std::endl;
-	}
-}
-
-void DropExp::createSprite()
-{
+	deTexture = loadedTexture;
 	deSprite.setTexture(deTexture);
+}
+
+void DropExp::createSprite(const float& xPos,const float& yPos)
+{
 	deSprite.setScale(m_deScale, m_deScale);
-	deSprite.setPosition(400.f, 400.f);
-	
+	deSprite.setRotation(45);
+	deSprite.setPosition(xPos, yPos);
 }
 
 void DropExp::update(sf::Int32& deltaTimeMs, PlayerCharacter* playerCharacter)
@@ -59,9 +52,20 @@ void DropExp::update(sf::Int32& deltaTimeMs, PlayerCharacter* playerCharacter)
 		if(deSprite.getGlobalBounds().intersects(playerCharacter->pcSprite.getGlobalBounds()))
 		{
 			// Adds Experience to the player
-			playerCharacter->setPlayerExp(playerCharacter->getPlayerExp() + m_dropExpValue);
+			playerCharacter->addPlayerExp(m_dropExpValue);
 			// Sets innactive for get pooled back to the pool
 			isActive = false;
 		}
 	}
+}
+
+bool DropExp::isInView(sf::FloatRect& currentViewRect) const 
+{
+	sf::FloatRect rect;
+	rect.left = deSprite.getPosition().x;
+	rect.top = deSprite.getPosition().y;
+	rect.width = m_deSize * m_deScale;
+	rect.height = m_deSize * m_deScale;
+
+	return rect.intersects(currentViewRect);
 }

@@ -4,24 +4,16 @@
 
 PlayerCharacter::PlayerCharacter()
 {
-	initTexture();
 	createSprite();
 }
 
-void PlayerCharacter::initTexture()
+void PlayerCharacter::initTexture(sf::Texture& loadedTexture)
 {
-	if (!pcTexture.loadFromFile("../assets/textures/character.png"))
-	{
-		std::cout << "Error loading PlayerCharacter Image" << std::endl;
-	}
-	else
-	{
-		std::cout << "PlayerCharacter Image Loaded" << std::endl;
-	}
+	pcTexture = loadedTexture;
+	pcSprite.setTexture(pcTexture);
 }
 
 void PlayerCharacter::createSprite()
 {
-	pcSprite.setTexture(pcTexture);
 	pcSprite.setPosition(-50.f, -50.f);
 }

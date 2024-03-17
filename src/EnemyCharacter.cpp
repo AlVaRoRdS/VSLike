@@ -3,38 +3,30 @@
 #include "EnemyCharacter.h"
 
 #include "Game.h"
-#include "PlayerCharacter.h"
 
 EnemyCharacter::EnemyCharacter()
 {
-	initEnemyCharacter();
+	//initEnemyCharacter();
 }
 
 void EnemyCharacter::initEnemyCharacter()
 {
-	initTexture();
-	createSprite();
+	isActive = true;
+	m_enemyHealth = 500.f;
 }
 
-void EnemyCharacter::initTexture()
+void EnemyCharacter::initTexture(sf::Texture& loadedTexture)
 {
-	if (!ecTexture.loadFromFile("../assets/textures/enemyCharacter.png"))
-	{
-		std::cout << "Error loading EnemyCharacter Image" << std::endl;
-	}
-	else
-	{
-		std::cout << "EnemyCharacter Image Loaded" << std::endl;
-	}
-}
-
-void EnemyCharacter::createSprite()
-{
+	ecTexture = loadedTexture;
 	ecSprite.setTexture(ecTexture);
-	ecSprite.setPosition(-400.f, -400.f);
 }
 
-void EnemyCharacter::update(sf::Int32& deltaTimeMs, PlayerCharacter* playerCharacter)
+void EnemyCharacter::createSprite(const float& xPos,const float& yPos)
+{
+	ecSprite.setPosition(xPos, yPos);
+}
+
+void EnemyCharacter::update(sf::Int32& deltaTimeMs, PlayerCharacter* playerCharacter, std::list<BaseAttack*> pooledBaseAttack)
 {
 	if(isActive)
 	{
@@ -74,8 +66,20 @@ void EnemyCharacter::update(sf::Int32& deltaTimeMs, PlayerCharacter* playerChara
 			m_damageCurrentRatio = 0.f;
 		}
 
-		// TODO Checks if intersects with Bullets
-
-		
+		// Checks if it intersects with Base Attack
+		for( auto obj : pooledBaseAttack)
+			if(ecSprite.getGlobalBounds().intersects(obj->baSprite.getGlobalBounds()))
+				m_enemyHealth -= obj->getBaseAttackDamage();
 	}
+}
+
+bool EnemyCharacter::isInView(sf::FloatRect& currentViewRect) const 
+{
+	sf::FloatRect rect;
+	rect.left = ecSprite.getPosition().x;
+	rect.top = ecSprite.getPosition().y;
+	rect.width = m_enemySize * m_enemyScale;
+	rect.height = m_enemySize * m_enemyScale;
+
+	return rect.intersects(currentViewRect);
 }

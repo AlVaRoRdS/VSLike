@@ -4,13 +4,15 @@
 
 GameUI::GameUI()
 {
+	std::cout << "///////// Loading Fonts //////////" << std::endl;
 	if (!font.loadFromFile("../assets/fonts/arial.ttf"))
 	{
-		// error...
+		std::cout << "// Failed Loading UI Font       //" << std::endl;
 	}
 	else
 	{
-		std::cout << "UI Font Loaded" << std::endl;
+		std::cout << "// UI Font Loaded               //" << std::endl;
+		
 		// select the font
 		text.setFont(font); // font is a sf::Font
 		// set the character size
@@ -25,6 +27,7 @@ GameUI::GameUI()
 		initPlayerHealthUI();
 		initPLayerExperienceUI();
 	}
+	std::cout << "//////////////////////////////////" << std::endl;
 }
 
 void GameUI::initPlayerHealthUI()
@@ -48,15 +51,15 @@ void GameUI::initPLayerExperienceUI()
 void GameUI::updateGameUI(PlayerCharacter* playerCharacter)
 {
 	// PlayerPosition
-	text.setString(std::to_string((playerCharacter->pcSprite.getPosition().x)) + " , " + std::to_string((playerCharacter->pcSprite.getPosition().y)));
+	text.setString(std::to_string(static_cast<int>(playerCharacter->pcSprite.getPosition().x)) + " , " + std::to_string(static_cast<int>(playerCharacter->pcSprite.getPosition().y)));
 	text.setPosition(playerCharacter->pcSprite.getPosition().x + offsetUI.x, playerCharacter->pcSprite.getPosition().y + offsetUI.y);
 
 	// PlayerHealth
-	playerHP.setString("HP: " + std::to_string(std::int8_t(playerCharacter->getPlayerHealth())));
+	playerHP.setString("HP: " + std::to_string(std::int32_t(playerCharacter->getPlayerHealth())));
 	playerHP.setPosition(playerCharacter->pcSprite.getPosition().x + offsetUI.x, playerCharacter->pcSprite.getPosition().y + offsetUI.y + 30.f);
 
 	// PlayerExperience
-	playerXP.setString("XP: " + std::to_string(std::int8_t(playerCharacter->getPlayerExp())));
+	playerXP.setString("XP: " + std::to_string(std::int32_t(playerCharacter->getPlayerExp())));
 	playerXP.setPosition(playerCharacter->pcSprite.getPosition().x + offsetUI.x, playerCharacter->pcSprite.getPosition().y + offsetUI.y + 60.f);
 }
 
