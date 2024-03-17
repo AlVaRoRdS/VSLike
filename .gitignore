@@ -1,0 +1,9 @@
+build
+out
+.cache
+.idea
+.vs
+.vscode
+psd
+cmake-sfml-project-master.rar
+CMakeSFMLProject.sln - Acceso directo.lnk
